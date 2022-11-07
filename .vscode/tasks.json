@@ -1,0 +1,22 @@
+// tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "python",
+            "type": "shell",
+            "command": "C:\\Python36\\python.exe",
+            "args": [
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        }
+    ]
+}
+
