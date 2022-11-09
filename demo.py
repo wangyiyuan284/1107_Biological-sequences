@@ -1,11 +1,14 @@
-import pysam as sam
-# 读取fasta
-fasta = sam.FastaFile('ABO_sequence.fasta')
-# 获取染色体编号
-fasta.references
-# 获取文件名
-fasta.filename
-# 获取染色体数
-fasta.nreferences
-# 获取每条染色体长
-fasta.lengths
+# -*- coding: utf-8 -*-
+import requests
+import re
+import openpyxl
+from bs4 import BeautifulSoup
+
+# Get user's inputet
+
+# proteinFamily = str(input("Please enter the specified protein family:"))
+# taxonomicGroup = str(input("Please enter the specified taxonomic group:"))
+
+with open("input_data/user_specified.txt","r") as file:
+    for line in file:
+        print (line)
