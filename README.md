@@ -2,6 +2,19 @@
 
 Biological-sequences will allow the user to define a dataset that is of interest to them, which will then be processed to produce the required outputs.
 
+**Line format for non-extended (without position): user_specified.txt**
+
+```
+[id: int],[protein family: string],[taxonomic group: string]
+
+```
+**Example:**
+
+```
+0,pyruvate dehydrogenase,ascomycete fungi
+1,immunoglobulin,animal
+
+```
 ## Biological-sequences need to be generic
 
 1.the user of Biological-sequences will specify the protein family, and the taxonomic group, and then Biological-sequences will need to obtain the relevant protein sequence data, and perform all subsequent analyses and outputs in the user's space on the server. the user's allowable starting sequence set probably shouldn't have more than 1,000 sequences.
