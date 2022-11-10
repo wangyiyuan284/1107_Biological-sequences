@@ -14,7 +14,6 @@ Biological-sequences will allow the user to define a dataset that is of interest
 0,pyruvate dehydrogenase,ascomycete fungi
 1,immunoglobulin,archaea
 2,transaminase,viruses
-
 ```
 ## Biological-sequences need to be generic
 

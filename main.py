@@ -25,17 +25,33 @@ with open('input_data/user_specified.txt') as file:
                 total = ele["Count"]
                 print(total)
 
-# # 得到查询 id 列表
-# hd_esearch = Entrez.esearch(db="nucleotide", term="oct4", retmax=total)
-# read_esearch = Entrez.read(hd_esearch)
-# # 这里我们只取前两个序列
-# ids = read_esearch["IdList"][:2]
+        # # 得到查询 id 列表
+        # hd_esearch = Entrez.esearch(db="protein", term=userSpecified, retmax=total)
+        # read_esearch = Entrez.read(hd_esearch)
+        # # 这里我们只取前1000个序列，建议用户不要超过1000个序列
+        # ids = read_esearch["IdList"][:2]
 
-# # 用得到的 id 列表去下载每一条 fasta 文件，并合并，以便后续分析使用（比如进化树构建）
-# hd_efetch_fa = Entrez.efetch(db='nucleotide', id=ids, rettype='fasta')
-# read_efetch_fa = hd_efetch_fa.read()
-# with open("input_data/sequence.fasta","w") as file:
-#     file.write(read_efetch_fa)
+        # # 用得到的 id 列表去下载每一条 fasta 文件，并合并，以便后续分析使用（比如进化树构建）
+        # hd_efetch_fa = Entrez.efetch(db='protein', id=ids, rettype='fasta')
+        # read_efetch_fa = hd_efetch_fa.read()
+        # with open("output_data/sequence.fasta","w") as file:
+        #     file.write(read_efetch_fa)
+        hd_search = Entrez.esearch(db="protein", term=userSpecified, usehistory="y")
+        read_search = Entrez.read(hd_search)
+        webenv = read_search["WebEnv"]
+        query_key = read_search["QueryKey"]
+        # 使用历史记录特性来进行搜索。
+        # Entrez 将会提前进行缓冲，提高查询效率
+        step = 5
+        total = 1000
+        with open("output_data/sequence1000.fasta", "w") as file:
+             for start in range(0, total, step):
+                end = min(total, start+step)
+                print("Download record %i to %i" % (start+1, end))
+                hd_fetch = Entrez.efetch(db="protein", rettype="fasta", retmode="fasta", retstart=start, retmax=step, webenv=webenv, query_key=query_key)
+                records = hd_fetch.read()
+                file.write(records)
+
 # # 同理你可以得到 xml 格式的序列信息
 # hd_efetch_xml = Entrez.efetch(db="nucleotide", id=ids, retmode="xml")
 # read_efetch_xml = Entrez.read(hd_efetch_xml)
