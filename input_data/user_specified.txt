@@ -1,1 +1,3 @@
-0,pyruvate dehydrogenase,ascomycete fungi
+0,pyruvate dehydrogenase,ascomycete fungi,1000
+1,immunoglobulin,archaea,1000
+2,transaminase,viruses,1000
