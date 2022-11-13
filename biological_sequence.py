@@ -4,10 +4,9 @@ import sys
 
 from Bio import Entrez, SeqIO
 
-from main import FILE_NAME
-
 sys.path.append('./util')
 import tools
+import plot
 
 
 class BiologicalSequence:
@@ -16,17 +15,14 @@ class BiologicalSequence:
         self, 
         FILE_NAME,
         OUT_DIR,
-        AMOUNT,
     ):
         self.FILE_NAME = FILE_NAME
         self.OUT_DIR = OUT_DIR
-        self.AMOUNT = AMOUNT
 
     def compute(
         self,
         file_name,  # User - defined file path and file name
         out_dir,
-        amount, # The number of initial sequences user want   
     ):
 
         # Gets the build folder directory name
@@ -45,12 +41,16 @@ class BiologicalSequence:
                 if not os.path.isdir(out_dir + "/" + name):
                     os.makedirs(out_dir + "/" + name, exist_ok=True)
         
-        # Get sequence
-        print("Generating the protein sequences...")
-        if(isinstance(file_name,str)):  
-            tools.get_sequence(file_name,out_dir,amount)
-        else:
-            raise ValueError("Please enter the correct file path..." + file_name)
-            
-        #To determine, and plot, the level of conservation between the protein sequences
-        print("Generating the level of conservation between the protein sequences...")
+                # Get sequence
+                print("Generating the protein sequences...")
+                if(isinstance(file_name,str)):  
+                    tools.get_sequence(line,out_dir,result[0][3])
+                else:
+                    raise ValueError("Please enter the correct file path..." + file_name)
+                    
+                #To determine, and plot, the level of conservation between the protein sequences
+                print("Generating the level of conservation between the protein sequences...")
+                tools.plot_conservation(out_dir+ "/" + name + "/sequence" + "_"+ result[0][3] +".fasta",out_dir,name,result[0][3])
+
+                #plot png
+                plot.plot_png(out_dir,name)

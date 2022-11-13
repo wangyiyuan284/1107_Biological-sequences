@@ -5,7 +5,8 @@
         {
             "label": "python",
             "type": "shell",
-            "command": "C:\\Python36\\python.exe",
+            // "command": "C:\\Python36\\python.exe",
+            "command": "E:\\Python\\python.exe",
             "args": [
                 "${file}"
             ],

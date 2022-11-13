@@ -1,14 +1,20 @@
 // settings.json
 {
-    "python.pythonPath": "C:\\Python36\\python.exe",
+    "python.pythonPath": "E:\\Python\\python.exe",
+    // "python.pythonPath": "C:\\Python36\\python.exe",
     "python.autoComplete.extraPaths": [
-        "C:\\Python36\\Lib\\site-packages",
-        "C:\\Python36\\Scripts"
+        "E:\\Python\\Lib\\site-packages",
+        "E:\\Python\\Scripts"
+        // "C:\\Python36\\Lib\\site-packages",
+        // "C:\\Python36\\Scripts"
         ],
     "python.languageServer": "Pylance",
     "python.analysis.extraPaths": [
-        "C:\\Python36\\Lib\\site-packages",
-        "C:\\Python36\\Scripts"
+        "E:\\Python\\Lib\\site-packages",
+        "E:\\Python\\Scripts",
+        // "C:\\Python36\\Lib\\site-packages",
+        // "C:\\Python36\\Scripts",
+        "./util"
     ],
     // "python.linting.flake8Enabled": true,
     // "python.formatting.provider": "yapf",

@@ -1,54 +1,65 @@
 from collections import Counter
+import time
 
-import numpy as np
+def plot_conservation(generated_sequence_file,output_data_dir,dir_name,specified_amount):
 
+	#Turn on the protein sequence
+	with open(generated_sequence_file,"r") as SeqInitial:             
+		
+		#Used to store post-processing sequences
+		with open(output_data_dir+ "/" + dir_name + "/sequenceTreatment.fasta", "w+") as SeqTreatment: 
+			#Read by row
+			for line in SeqInitial.readlines(): 
+				#Remove the newline character       
+					line=line.strip('\n')         
+					if'>' not in line:
+						#Read by row          
+						SeqTreatment.write(line)           
+					if'>'in line :    
+						#Use '.'instead of protein name information         
+						SeqTreatment.write('.')     
+	SeqInitial.close()
+	SeqTreatment.close()
+	SeqTreatment = open(output_data_dir+ "/" + dir_name + "/sequenceTreatment.fasta")            
 
-def plot_conservation(generated_sequence_file,output_data_dir,dir_name):
+	# reads all into one string
+	allTxt=SeqTreatment.read()  
 
-    #Turn on the protein sequence
-    with open(generated_sequence_file,"r") as SeqInitial:             
-        
-        #Used to store post-processing sequences
-        with open(output_data_dir+ "/" + dir_name + "/sequenceTreatment.fasta", "w+") as SeqTreatment: 
-            #Read by row
-	        for line in SeqInitial.readlines(): 
-                #Remove the newline character       
-                    line=line.strip('\n')         
-                    if'>' not in line:
-                        #Read by row          
-                        SeqTreatment.write(line)           
-                    if'>'in line :    
-                        #Use '.'instead of protein name information         
-                        SeqTreatment.write('.')     
-    SeqInitial.close()
-    SeqTreatment.close()
-    SeqTreatment = open('sequenceTreatment.fasta')            
+	#Drop the beginning dot
+	lineTxt=allTxt[:0]+allTxt[1:]
 
-    # reads all into one string
-    allTxt=SeqTreatment.read()  
-
-    #Drop the beginning dot
-    lineTxt=allTxt[:0]+allTxt[1:]
-
-    # Create a list with 1000 strings             
-    slist=[0 for col in range(1000)]
+	# Create a list with 1000 strings             
+	slist=[0 for column in range(int(specified_amount))]
  
-    for i in range (1000):                #按点‘.’分割序列
-    	slist[i]= txt.split('.')[i]
-comlist=str()                    #创建一个而用来存放矩阵竖列的变量
-lsen=str()                          #创建一个用来存放特征序列的变量
+	for i in range (int(specified_amount)): 
+		#Split the sequence by dot '.'
+		slist[i]= lineTxt.split('.')[i]
+		
+	#Create a variable to hold the vertical columns of the matrix
+	compare_list = str()  
+	#Create a variable to hold the feature sequence                 
+	lsen = str()                  
  
-  
-for i in range(1000):
-    for j in range(len(slist[i])): 
-        comlist=comlist+slist[i][j]
-    if ( Counter(comlist).most_common(1)[0][0]!='-'):            #找出列字符串里出现频率最高的氨基酸
-        if(Counter(comlist).most_common(1)[0][1]>500):            #大于一半的
-            lsen=lsen+Counter(comlist).most_common(1)[0][0]      #一个一个存放起来
-            comlist='-'                                                        #重置compare list
- 
-lsen=lsen[:100]                                          #取前100个
-print(len(lsen))                                          
-print(lsen)
-with open('A1feature.fasta','w')as feature:
-	feature.write(lsen)                          #创建个fasta文件存起来
+	for j in range(int(specified_amount)):
+		for k in range(len(slist[j])): 
+			compare_list = compare_list+slist[j][k]
+		#Find the amino acid that appears most frequently in the listed string
+		if ( Counter(compare_list).most_common(1)[0][0]!='-'): 
+			# more than half of specified_amount           
+			if(Counter(compare_list).most_common(1)[0][1]>int(int(specified_amount)/2)):
+				# Store them one by one
+				lsen = lsen+Counter(compare_list).most_common(1)[0][0] 
+		#Reset the compare list     
+		compare_list = '-'
+
+	# Use as many initial sequences as the user wants for conservative analysis
+	lsen=lsen[:int(specified_amount)]                                          
+	print("Similar sequence length:"+ str(len(lsen)))
+	print(lsen)
+	with open(output_data_dir + "/" + dir_name + "/Seqfeature.fasta",'w+')as SeqDealtWith:
+		#Create a fasta file and save it
+		SeqDealtWith.write(lsen)
+	
+	# Print finish
+	print("Extraction of similar sites of protein sequences has been completed" + " " + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+	
